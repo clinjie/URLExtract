@@ -438,7 +438,7 @@ class URLExtract(CacheFile):
             if tld_pos > 0 and text[tld_pos - 1] not in self._stop_chars_left:
                 return True
 
-        return False
+        return True
 
     def _is_domain_valid(self, url, tld):
         """
@@ -521,13 +521,11 @@ class URLExtract(CacheFile):
             return False
 
         # IP address are valid hosts
-        if tld in self._ipv4_tld:
-            if isinstance(host, ipaddress.IPv4Address):
-                return True
-            else:
-                return False
+        #if tld in self._ipv4_tld:
+        if isinstance(host, ipaddress.IPv4Address):
+            return True
 
-        host_parts = host.split('.')
+        host_parts = str(host).split('.')
         if len(host_parts) <= 1:
             return False
 
